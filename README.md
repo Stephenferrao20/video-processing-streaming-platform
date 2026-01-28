@@ -532,13 +532,11 @@ Register users with different roles:
 9. **CORS**: Configure CORS for production domain
 10. **File Cleanup**: Implement cleanup job for failed/old uploads
 
-## 📄 License
 
-This project is created for evaluation purposes.
 
 ## 👤 Author
 
-Senior Full-Stack Engineer
+Stephen Ferrao
 
 ---
 
