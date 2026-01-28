@@ -30,6 +30,11 @@ const Layout = () => {
                 Upload
               </Link>
             )}
+            {user?.role === 'admin' && (
+              <Link to="/admin/users" className="nav-link">
+                Admin
+              </Link>
+            )}
             <div className="nav-user">
               <span className="nav-user-name">{user?.name}</span>
               <span className="nav-user-role">({user?.role})</span>

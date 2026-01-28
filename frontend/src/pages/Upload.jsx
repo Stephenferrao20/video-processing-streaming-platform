@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { videoService } from '../services/video.service';
 import { socketService } from '../services/socket.service';
+import { userService } from '../services/user.service';
 import './Upload.css';
 
 const Upload = () => {
@@ -15,6 +16,8 @@ const Upload = () => {
   const [uploadedVideo, setUploadedVideo] = useState(null);
   const [error, setError] = useState('');
   const [uploading, setUploading] = useState(false);
+  const [tenantId, setTenantId] = useState('');
+  const [tenants, setTenants] = useState([]);
 
   useEffect(() => {
     // Listen for video processing updates
@@ -39,6 +42,21 @@ const Upload = () => {
       socketService.off('video-processing-update', handleProcessingUpdate);
     };
   }, [uploadedVideo, navigate]);
+
+  useEffect(() => {
+    // Admin-only: fetch tenants so admin can upload to a specific tenant
+    const fetchTenants = async () => {
+      if (user?.role !== 'admin') return;
+      try {
+        const res = await userService.getTenants();
+        setTenants(res.tenants || []);
+      } catch (e) {
+        // Non-fatal: admin can still upload to self tenant
+        console.error('Failed to load tenants:', e);
+      }
+    };
+    fetchTenants();
+  }, [user?.role]);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -78,8 +96,9 @@ const Upload = () => {
     setProcessingStatus('');
 
     try {
-      const video = await videoService.uploadVideo(file, (progress) => {
-        setUploadProgress(progress);
+      const video = await videoService.uploadVideo(file, {
+        tenantId: user?.role === 'admin' && tenantId ? tenantId : undefined,
+        onProgress: (progress) => setUploadProgress(progress)
       });
 
       setUploadedVideo(video);
@@ -99,6 +118,7 @@ const Upload = () => {
     setProcessingProgress(0);
     setProcessingStatus('');
     setError('');
+    setTenantId('');
   };
 
   if (user?.role !== 'admin' && user?.role !== 'editor') {
@@ -118,6 +138,31 @@ const Upload = () => {
       {!uploadedVideo ? (
         <div className="upload-form">
           {error && <div className="error-message">{error}</div>}
+
+          {user?.role === 'admin' && (
+            <div className="tenant-section">
+              <label htmlFor="tenant-select" className="tenant-label">
+                Upload to tenant (admin only)
+              </label>
+              <select
+                id="tenant-select"
+                className="tenant-select"
+                value={tenantId}
+                onChange={(e) => setTenantId(e.target.value)}
+                disabled={uploading}
+              >
+                <option value="">Self (my tenant)</option>
+                {tenants.map((t) => (
+                  <option key={t._id} value={t._id}>
+                    {t.name} ({t.email}) — videos: {t.videoCount}, members: {t.memberCount}
+                  </option>
+                ))}
+              </select>
+              <p className="tenant-help">
+                Tip: assign a viewer to this tenant in <strong>Admin → Users</strong> to share videos.
+              </p>
+            </div>
+          )}
 
           <div className="file-input-wrapper">
             <input

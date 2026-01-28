@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import Upload from './pages/Upload';
 import VideoLibrary from './pages/VideoLibrary';
 import VideoPlayer from './pages/VideoPlayer';
+import AdminUsers from './pages/AdminUsers';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -47,6 +48,14 @@ function App() {
           element={
             <ProtectedRoute>
               <VideoPlayer />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <ProtectedRoute requiredRoles={['admin']}>
+              <AdminUsers />
             </ProtectedRoute>
           }
         />

@@ -27,9 +27,12 @@ class VideoService {
     });
   }
 
-  async uploadVideo(file, onProgress) {
+  async uploadVideo(file, { tenantId, onProgress } = {}) {
     const formData = new FormData();
     formData.append('video', file);
+    if (tenantId) {
+      formData.append('tenantId', tenantId);
+    }
 
     const response = await this.api.post('/videos/upload', formData, {
       headers: {
