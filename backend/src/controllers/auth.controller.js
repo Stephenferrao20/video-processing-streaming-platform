@@ -1,9 +1,8 @@
 import User from '../models/User.model.js';
 import { generateToken } from '../utils/jwt.util.js';
 
-/**
- * Register a new user
- */
+// Register a new user
+
 export const register = async (req, res, next) => {
   try {
     const { email, password, name, role } = req.body;
@@ -26,14 +25,12 @@ export const register = async (req, res, next) => {
     }
 
     // Create user
-    // For multi-tenant: first user becomes their own tenant
-    // Subsequent users can be assigned to tenants by admin
     const user = new User({
       email,
       password,
       name,
       role: role || 'viewer',
-      tenantId: null // Will be set to their own ID after creation
+      tenantId: null 
     });
 
     await user.save();
@@ -64,9 +61,8 @@ export const register = async (req, res, next) => {
   }
 };
 
-/**
- * Login user
- */
+// Login user
+
 export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -119,9 +115,8 @@ export const login = async (req, res, next) => {
   }
 };
 
-/**
- * Get current user profile
- */
+// Get current user profile
+
 export const getProfile = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id);

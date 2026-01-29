@@ -6,9 +6,9 @@ import Video from '../models/Video.model.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-/**
- * Extract video metadata using FFmpeg
- */
+
+ //Extract video metadata using FFmpeg
+
 export const extractVideoMetadata = (videoPath) => {
   return new Promise((resolve, reject) => {
     ffmpeg.ffprobe(videoPath, (err, metadata) => {
@@ -29,9 +29,9 @@ export const extractVideoMetadata = (videoPath) => {
   });
 };
 
-/**
- * Dummy sensitivity analysis based on rules
- */
+
+// Dummy sensitivity analysis based on rules
+ 
 export const analyzeSensitivity = (video) => {
   // Rule-based dummy analysis
   const rules = [];
@@ -67,10 +67,8 @@ export const analyzeSensitivity = (video) => {
   };
 };
 
-/**
- * Process video through sensitivity analysis pipeline
- * Emits real-time updates via Socket.io
- */
+// Process video through sensitivity analysis pipeline
+
 export const processVideo = async (videoId, io) => {
   try {
     const video = await Video.findById(videoId);

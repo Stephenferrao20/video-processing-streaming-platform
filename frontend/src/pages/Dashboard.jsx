@@ -24,7 +24,6 @@ const Dashboard = () => {
       const { videos, pagination } = await videoService.getVideos({ limit: 5 });
       setRecentVideos(videos);
 
-      // Calculate stats
       const allVideos = await videoService.getVideos({ limit: 1000 });
       const total = allVideos.pagination.total;
       const processing = allVideos.videos.filter(v => v.processingStatus === 'processing' || v.processingStatus === 'pending').length;

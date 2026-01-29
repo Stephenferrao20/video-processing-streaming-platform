@@ -1,9 +1,8 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.model.js';
 
-/**
- * Middleware to verify JWT token and attach user to request
- */
+// Middleware to verify JWT token and attach user to request
+
 export const authenticate = async (req, res, next) => {
   try {
     const token = req.headers.authorization?.split(' ')[1];
@@ -44,9 +43,8 @@ export const authenticate = async (req, res, next) => {
   }
 };
 
-/**
- * Middleware to check if user has required role
- */
+// Middleware to check if user has required role
+
 export const authorize = (...roles) => {
   return (req, res, next) => {
     if (!req.user) {
@@ -67,10 +65,8 @@ export const authorize = (...roles) => {
   };
 };
 
-/**
- * Middleware to ensure multi-tenant isolation
- * Users can only access their own data or data from their tenant
- */
+// Middleware to ensure multi-tenant isolation
+
 export const enforceTenantIsolation = (req, res, next) => {
   if (!req.user) {
     return res.status(401).json({

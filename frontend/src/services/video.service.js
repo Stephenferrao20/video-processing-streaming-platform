@@ -62,7 +62,6 @@ class VideoService {
   }
 
   getVideoStreamUrl(id) {
-    // For video streaming, we need to pass token in URL since HTML5 video can't send custom headers
     const token = localStorage.getItem('token');
     return `${API_URL}/videos/${id}/stream?token=${token}`;
   }

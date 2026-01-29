@@ -31,7 +31,6 @@ const VideoPlayer = () => {
             sensitivityReason: data.sensitivityReason || prev.sensitivityReason
           }));
 
-          // Update stream URL if processing completed
           if (data.status === 'completed') {
             setStreamUrl(videoService.getVideoStreamUrl(video._id));
           }
@@ -52,7 +51,7 @@ const VideoPlayer = () => {
       const fetchedVideo = await videoService.getVideo(id);
       setVideo(fetchedVideo);
 
-      // Set stream URL if processing is completed
+     
       if (fetchedVideo.processingStatus === 'completed') {
         setStreamUrl(videoService.getVideoStreamUrl(id));
       }

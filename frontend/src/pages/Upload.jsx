@@ -44,14 +44,12 @@ const Upload = () => {
   }, [uploadedVideo, navigate]);
 
   useEffect(() => {
-    // Admin-only: fetch tenants so admin can upload to a specific tenant
     const fetchTenants = async () => {
       if (user?.role !== 'admin') return;
       try {
         const res = await userService.getTenants();
         setTenants(res.tenants || []);
       } catch (e) {
-        // Non-fatal: admin can still upload to self tenant
         console.error('Failed to load tenants:', e);
       }
     };

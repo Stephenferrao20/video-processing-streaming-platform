@@ -7,9 +7,8 @@ import { dirname, join } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-/**
- * Upload video file
- */
+// Upload video file
+
 export const uploadVideo = async (req, res, next) => {
   try {
     if (!req.file) {
@@ -19,8 +18,7 @@ export const uploadVideo = async (req, res, next) => {
       });
     }
 
-    // Admins and editors can optionally specify a tenantId to upload to
-    // This allows them to upload videos that viewers in that tenant can access
+   
     let tenantId = req.user.tenantId || req.user._id;
     
     if (req.body.tenantId && (req.user.role === 'admin' || req.user.role === 'editor')) {
@@ -52,7 +50,6 @@ export const uploadVideo = async (req, res, next) => {
     await video.save();
 
     // Start processing asynchronously
-    // Don't await - let it run in background
     processVideo(video._id, req.app.locals.io).catch(error => {
       console.error('Video processing error:', error);
     });
@@ -67,9 +64,8 @@ export const uploadVideo = async (req, res, next) => {
   }
 };
 
-/**
- * Get all videos for authenticated user (with tenant isolation)
- */
+// Get all videos for authenticated user (with tenant isolation)
+
 export const getVideos = async (req, res, next) => {
   try {
     const tenantId = req.user.tenantId || req.user._id;
@@ -124,9 +120,8 @@ export const getVideos = async (req, res, next) => {
   }
 };
 
-/**
- * Get single video by ID
- */
+// Get single video by ID
+
 export const getVideo = async (req, res, next) => {
   try {
     const tenantId = req.user.tenantId || req.user._id;
@@ -157,14 +152,10 @@ export const getVideo = async (req, res, next) => {
   }
 };
 
-/**
- * Stream video with HTTP Range Request support
- * Supports token in query string for video element compatibility
- */
+// Stream video with HTTP Range Request support
+
 export const streamVideo = async (req, res, next) => {
   try {
-    // Support token in query string for video element compatibility
-    // The authenticate middleware handles Authorization header, but we also check query token
     let user = req.user;
     if (!user && req.query.token) {
       try {
@@ -256,9 +247,8 @@ export const streamVideo = async (req, res, next) => {
   }
 };
 
-/**
- * Delete video
- */
+// Delete video
+
 export const deleteVideo = async (req, res, next) => {
   try {
     const tenantId = req.user.tenantId || req.user._id;

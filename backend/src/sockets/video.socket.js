@@ -1,8 +1,8 @@
 import { authenticateSocket } from '../middleware/socket-auth.middleware.js';
 
-/**
- * Initialize Socket.io handlers for real-time video processing updates
- */
+
+ //Initialize Socket.io handlers for real-time video processing updates
+ 
 export const initializeSocket = (io) => {
   // Authentication middleware for socket connections
   io.use(authenticateSocket);

@@ -1,8 +1,7 @@
 import jwt from 'jsonwebtoken';
 
-/**
- * Generate JWT token for user
- */
+
+//  Generate JWT token for user
 export const generateToken = (userId) => {
   const secret = process.env.JWT_SECRET;
   if (!secret) {
@@ -15,9 +14,8 @@ export const generateToken = (userId) => {
   );
 };
 
-/**
- * Verify JWT token
- */
+
+ //Verify JWT token
 export const verifyToken = (token) => {
   const secret = process.env.JWT_SECRET;
   if (!secret) {

@@ -1,8 +1,7 @@
 import User from '../models/User.model.js';
 
-/**
- * Get all users (admin only)
- */
+// Get all users (admin only)
+
 export const getUsers = async (req, res, next) => {
   try {
     const { page = 1, limit = 10, role } = req.query;
@@ -98,10 +97,8 @@ export const updateUserRole = async (req, res, next) => {
   }
 };
 
-/**
- * Update user tenant (admin only)
- * Allows admins to assign users to a tenant so they can share videos
- */
+// Update user tenant (admin only)
+
 export const updateUserTenant = async (req, res, next) => {
   try {
     const { tenantId } = req.body;
@@ -141,11 +138,8 @@ export const updateUserTenant = async (req, res, next) => {
   }
 };
 
-/**
- * Get all tenants (users who can be tenant owners)
- * Admin only - helps admins see which users can be assigned as tenants
- * Returns list of users that can serve as tenant owners
- */
+// Get all tenants (users who can be tenant owners)
+
 export const getTenants = async (req, res, next) => {
   try {
     const Video = (await import('../models/Video.model.js')).default;

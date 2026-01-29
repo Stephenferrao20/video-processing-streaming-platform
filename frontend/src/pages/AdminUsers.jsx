@@ -15,7 +15,6 @@ export default function AdminUsers() {
   const [tenants, setTenants] = useState([]);
 
   const tenantOptions = useMemo(() => {
-    // tenants endpoint returns all users with counts (each can be a tenant owner)
     const sorted = [...tenants].sort((a, b) => {
       const aKey = `${a.name || ''}`.toLowerCase();
       const bKey = `${b.name || ''}`.toLowerCase();
@@ -64,7 +63,6 @@ export default function AdminUsers() {
     try {
       setSavingUserId(userId);
 
-      // "self" means reset to their own tenant (backend uses null to mean self-tenant in our model)
       const tenantId = tenantIdValue === 'self' ? null : tenantIdValue;
 
       await userService.updateUserTenant(userId, tenantId);
