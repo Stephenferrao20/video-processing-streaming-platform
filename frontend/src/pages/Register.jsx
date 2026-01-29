@@ -15,6 +15,11 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    console.log('name : ',name);
+    console.log('email : ',email);
+    console.log('password : ',password);
+    console.log('role : ',role);
     setError('');
     setLoading(true);
 

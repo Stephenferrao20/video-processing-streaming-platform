@@ -13,6 +13,8 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('email : ',email); 
+    console.log('password : ',password); 
     setError('');
     setLoading(true);
 
